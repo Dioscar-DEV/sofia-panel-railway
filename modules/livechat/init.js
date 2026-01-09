@@ -715,13 +715,18 @@
         if (!value) return '';
         try {
             const date = new Date(value);
-            // Restar 4 horas para Venezuela (UTC-4)
-            date.setHours(date.getHours() - 4);
+            // Convertir a hora de Venezuela (UTC-4)
+            const utcHours = date.getUTCHours();
+            const utcMinutes = date.getUTCMinutes();
             
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
+            // Restar 4 horas desde UTC
+            let hours = utcHours - 4;
+            if (hours < 0) hours += 24;
             
-            return `${hours}:${minutes}`;
+            const hoursStr = String(hours).padStart(2, '0');
+            const minutesStr = String(utcMinutes).padStart(2, '0');
+            
+            return `${hoursStr}:${minutesStr}`;
         } catch (err) {
             return value;
         }
