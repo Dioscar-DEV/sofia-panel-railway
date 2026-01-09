@@ -679,14 +679,16 @@
         if (!value) return 'Sin registro';
         try {
             const date = new Date(value);
-            return date.toLocaleString('es-VE', { 
-                timeZone: 'America/Caracas',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            // Restar 4 horas para Venezuela (UTC-4)
+            date.setHours(date.getHours() - 4);
+            
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
         } catch (err) {
             return value;
         }
@@ -696,12 +698,14 @@
         if (!value) return '';
         try {
             const date = new Date(value);
-            return date.toLocaleDateString('es-VE', { 
-                timeZone: 'America/Caracas',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            });
+            // Restar 4 horas para Venezuela (UTC-4)
+            date.setHours(date.getHours() - 4);
+            
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            
+            return `${day}/${month}/${year}`;
         } catch (err) {
             return value;
         }
@@ -711,11 +715,13 @@
         if (!value) return '';
         try {
             const date = new Date(value);
-            return date.toLocaleTimeString('es-VE', { 
-                timeZone: 'America/Caracas',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            // Restar 4 horas para Venezuela (UTC-4)
+            date.setHours(date.getHours() - 4);
+            
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            
+            return `${hours}:${minutes}`;
         } catch (err) {
             return value;
         }
