@@ -472,7 +472,7 @@
 
         state.messages.forEach(msg => {
             // Separador de fecha
-            const msgDate = new Date(msg.created_at).toLocaleDateString();
+            const msgDate = formatDateVenezuela(msg.created_at);
             if (msgDate !== lastDate) {
                 const divider = document.createElement('div');
                 divider.className = 'date-divider';
@@ -505,7 +505,7 @@
         }
 
         // Metadatos (hora)
-        const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const time = formatTimeVenezuela(msg.created_at);
         contentHtml += `
             <div class="message-meta">
                 <span class="message-time">${time}</span>
@@ -678,7 +678,44 @@
     function formatTimestamp(value) {
         if (!value) return 'Sin registro';
         try {
-            return new Date(value).toLocaleString();
+            const date = new Date(value);
+            return date.toLocaleString('es-VE', { 
+                timeZone: 'America/Caracas',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch (err) {
+            return value;
+        }
+    }
+
+    function formatDateVenezuela(value) {
+        if (!value) return '';
+        try {
+            const date = new Date(value);
+            return date.toLocaleDateString('es-VE', { 
+                timeZone: 'America/Caracas',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+        } catch (err) {
+            return value;
+        }
+    }
+
+    function formatTimeVenezuela(value) {
+        if (!value) return '';
+        try {
+            const date = new Date(value);
+            return date.toLocaleTimeString('es-VE', { 
+                timeZone: 'America/Caracas',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
         } catch (err) {
             return value;
         }
